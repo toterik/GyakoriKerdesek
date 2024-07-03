@@ -13,14 +13,15 @@
     @else
         <p>Welcome, stranger</p>
         <a href="{{ route('registration') }}">Regisztráció</a>
-        <a href="{{ route('login') }}">Bejelentkezés</a>
+        <a href="{{ route('login') }}">Bejelentkezés</a> 
     @endif
 
+    <a href="{{ route('newQuestionShow') }}">Tegyél fel egy új kérdést</a>
     <h1>Select a Topic</h1>
     <ul>
         @foreach ($topics as $topic)
             <li>
-                <a href="{{ route('showQuestions', ['topicId' => $topic->id]) }}" style="text-decoration: underline; cursor: pointer;">
+                <a href="{{ route('showQuestions', ['topicId' => $topic->id]) }}">
                     {{ $topic->name }}
                 </a>
             </li>

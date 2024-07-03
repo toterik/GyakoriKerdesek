@@ -16,4 +16,5 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/questions/{topicId}', [QuestionController::class, 'showQuestionsByTopic'])->name('showQuestions');
-
+Route::get('/newQuestionShow', [QuestionController::class, 'newQuestionShow'])->name('newQuestionShow');
+Route::post('/newQuestion', [QuestionController::class, 'newQuestion'])->name('newQuestion');

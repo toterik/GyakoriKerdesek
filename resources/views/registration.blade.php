@@ -17,7 +17,7 @@
                 </ul>
             </div>
         @endif
-        <form id="signUp" action="{{ route('register.signUp') }}" method="POST">
+        <form id="signUp" action="{{ route('signUp') }}" method="POST">
             @csrf
             <label for="username">Username:</label>
             <input type="text" name="username" required>

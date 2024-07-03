@@ -8,7 +8,7 @@ class TopicController extends Controller
 {
     public function index()
     {
-        $topics = Topic::all();
+        $topics = Topic::all()->where("is_visible",1);
 
         return view('welcome', compact('topics'));
     }
