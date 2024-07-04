@@ -9,24 +9,31 @@ use Illuminate\Routing\Controller;
 class QuestionController
 {
     public function showQuestionsByTopic(Request $request)
-    {
-        $questions = Question::where('topic_id', $request->topicId)->get();
-        return view('questions',compact('questions'));
-    }
+{
+    $topic = Topic::where('name', $request->topicName)->first();
+    $topicId = $topic ? $topic->id : null;
 
-    public function newQuestionShow(Request $request)
+    $questions = Question::where('topic_id', $topicId)->get();
+    $topicName = $request->topicName;
+    return view('questions.index', compact('questions', 'topicName')); 
+}
+
+
+    public function showQuestionCreationForm(Request $request)
     {
+        
         $topics = Topic::all();
-        return view('newQuestion', compact('topics'));
+        return view('questions.create', compact('topics'));
     }
     
-    public function newQuestion(Request $request)
+    public function createNewQuestion(Request $request)
     {
         $request->validate([
             'topic' => 'required|string',
-            'title' => 'required|string|max:20',
+            'title' => 'required|string|max:30',
             'body' => 'required|string',
         ]);
+        
 
         $topicName = $request->topic;
         $topicId = Topic::where('name', $topicName)->first()->id;
@@ -34,10 +41,6 @@ class QuestionController
         $title = $request->title;
         $body = $request->body;
 
-        print($topicId);
-        print($userId);
-        print($title);
-        print($body);
 
         $question = Question::create([
             'user_id' => $userId,
@@ -49,6 +52,12 @@ class QuestionController
      
         dd($question);
         
-        return view('newQuestionShow');
+        return view('questions.index');
+    }
+
+    public function show(Request $request)
+    {
+        print(($request->questionId));
+        print($request->topicName);
     }
 }

@@ -6,9 +6,21 @@
     <title>Simple Form</title>
 </head>
 <body>
+    
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
+
+    @include('menu.nav');
     <h2>Submit Your Post</h2>
-    <form action="/newQuestion" method="post">
+    <form action="{{ route('questions.store') }}" method="post">
         @csrf
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" required><br><br>
@@ -27,8 +39,6 @@
         @else
         <input type="submit" value="Submit" disabled> Jelentkezz be először a kérdés feltevéséhez
         @endif
-        
-
     </form>
 
 </body>

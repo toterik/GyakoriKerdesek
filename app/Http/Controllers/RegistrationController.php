@@ -9,18 +9,20 @@ use Illuminate\Routing\Controller;
 
 class RegistrationController extends Controller
 {
-    public function index()
+    public function showRegistrationForm()
     {
-        return view('registration');
+        return view('auth.registration');
     }
 
     public function signUp(Request $request)
     {
+
         $validated = $request->validate([
             'username' => 'required|unique:users',
             'email' => 'required|unique:users|email',
             'password' => 'required|min:8|confirmed',
         ]);
+       
 
         $user = User::create([
             'username' => $validated['username'],
@@ -28,6 +30,6 @@ class RegistrationController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return redirect()->route('register.index')->with('success', 'Registration successful!');
+        return redirect()->route('login.form')->with('success', 'Registration successful!');
     }
 }
