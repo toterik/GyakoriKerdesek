@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
+use App\Models\Like;
 use App\Models\Question;
 use App\Models\Topic;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 class QuestionController
@@ -49,15 +52,16 @@ class QuestionController
             'body' => $body
         ]);
     
-     
-        dd($question);
-        
+    
         return view('questions.index');
     }
 
     public function show(Request $request)
     {
-        print(($request->questionId));
-        print($request->topicName);
+        $question = Question::where('id', $request->questionId)->first();
+        $userName = User::find($question->user_id)->username;
+        $answers = Answer::where('question_id', $request->questionId)->paginate(10);
+       
+        return view('questions.show', compact('question', 'answers','userName'));
     }
 }
