@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [TopicController::class, 'index'])->name('index');
+Route::post('/setTopicVisibility/{id}', [TopicController::class, 'setTopicVisibility'])->name('topic.setVisibilty');
+
 
 Route::get('/registration', [RegistrationController::class, 'showRegistrationForm'])->name('registration.form');
 Route::post('/signUp', [RegistrationController::class, 'signUp'])->name('signUp');;
@@ -22,3 +24,4 @@ Route::post('/questions', [QuestionController::class, 'createNewQuestion'])->nam
 Route::get('/questions/{topicName}/{questionId}', [QuestionController::class, 'show'])->name('questions.show');
 
 Route::post('/createAnswer', [AnswerController::class,'createAnswer'])->name('answers.create');
+Route::post('/deleteAnswer/{answerId}', [AnswerController::class,'deleteAnswer'])->name('answers.delete');

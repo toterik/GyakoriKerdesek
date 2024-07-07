@@ -16,9 +16,18 @@
     @else
     <h2>Answers:</h2>
     <ul>
-        @foreach ($answers as $answer)
-            <li>{{ $answer->body }}</li>
-        @endforeach
+    @foreach ($answers as $answer)
+        <li>
+            {{ $answer->body }}
+            @if (Auth::user()->is_admin)
+                <form action="{{ route('answers.delete', $answer->id) }}"
+                method="POST" onsubmit="return confirm('Are you sure you want to delete this answer?');">
+                    @csrf
+                    <input type="image" src="{{ asset('images/x.png') }}" alt="Delete"  style="width: 16px; height: 16px;">
+                </form>
+            @endif
+        </li>
+    @endforeach
     </ul>
     @endif
 
