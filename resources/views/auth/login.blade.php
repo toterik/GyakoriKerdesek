@@ -6,7 +6,7 @@
     <title>Login</title>
 </head>
 <body>
-    @include('menu.nav');
+    @include('menu.nav')
     <div class="container">
         <h1>Login</h1>
         @if (session('error'))

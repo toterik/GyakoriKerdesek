@@ -4,7 +4,7 @@
     <title>Welcome Page</title>
 </head>
 <body>
-    @include('menu.nav');
+    @include('menu.nav')
     <h1>Select a Topic</h1>
     <ul>
     @foreach ($topics as $topic)
