@@ -61,8 +61,8 @@ class QuestionController
     {
         $question = Question::where('id', $request->questionId)->first();
         $userName = User::find($question->user_id)->username;
-        $answers = Answer::where('question_id', $request->questionId)->paginate(10);
-       
+        $answers = Answer::where('question_id', $request->questionId)->with('user')->paginate(10);
+
         return view('questions.show', compact('question', 'answers','userName'));
     }
 

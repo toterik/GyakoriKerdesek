@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Form</title>
-</head>
-<body>
-    
+@extends('layouts.app')
+
+@section('title', 'Ask new question')
+
+@section('content')
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -17,8 +13,6 @@
         </div>
     @endif
 
-
-    @include('menu.nav')
     <h2>Submit Your Post</h2>
     <form action="{{ route('questions.store') }}" method="post">
         @csrf
@@ -40,6 +34,4 @@
         <input type="submit" value="Submit" disabled> Jelentkezz be először a kérdés feltevéséhez
         @endif
     </form>
-
-</body>
-</html>
+@endsection

@@ -16,5 +16,9 @@ class Answer extends Model
         'user_id',
         'body'
      ];
+     public function user()
+     {
+         return $this->belongsTo(User::class);
+     }
 }
 
