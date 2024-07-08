@@ -39,4 +39,25 @@ class TopicController extends Controller
 
         return redirect()->back()->with('error', 'Topic not found.');
     }
+    
+    public function showEditTopicForm(Request $request)
+    {
+        $topic = Topic::find($request->id);
+        return view('topics.edit', compact('topic'));
+    }
+
+    public function editTopic(Request $request)
+    {
+        $id = $request->id;
+        $name =$request->topicName;
+        $description = $request->description;
+        $is_visible = $request->is_visible;
+
+        Topic::where('id',$id)->update([
+            'name'=>$name,
+            'description' => $description,
+            'is_visible'=> $is_visible]);
+
+        return redirect()->route('index');
+    }
 }

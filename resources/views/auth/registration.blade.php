@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-</head>
-<body>
-    @include('menu.nav') 
+@extends('layouts.app')
+
+@section('title', 'Registration')
+
+@section('content')
     <div class="container">
         <h1>Register</h1>
         @if ($errors->any())
@@ -31,5 +27,4 @@
             <button type="submit">Sign Up</button>
         </form>
     </div>
-</body>
-</html>
+@endsection

@@ -1,20 +1,15 @@
+@extends('layouts.app')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question</title>
-</head>
-<body>
-    @include('menu.nav')
+@section('title', 'Question ')
+
+@section('content')
     <h1>{{ $question->title }} by {{$userName}} at {{$question->created_at}}</h1>
     @if (Auth::user() != null && Auth::user()->is_admin)
         <form action="{{ route('questions.delete', $question->id) }}"
         method="POST" onsubmit="return confirm('Are you sure you want to delete this question?');">
             @csrf
             <input type="image" src="{{ asset('images/x.png') }}" alt="Delete"  style="width: 16px; height: 16px;">
-            
+
         </form>
     @endif
     <p>{{ $question->body }}</p>
@@ -34,6 +29,7 @@
                     <input type="image" src="{{ asset('images/x.png') }}" alt="Delete"  style="width: 16px; height: 16px;">
                 </form>
             @endif
+            <p><small>Answered by: {{ $answer->user->username }}</small></p>
         </li>
     @endforeach
     </ul>
@@ -56,6 +52,4 @@
     @else
         <h3>You need to <a href="{{ route('login') }}">log in</a> to submit an answer.</h3>
     @endauth
-
-</body>
-</html>
+@endsection
