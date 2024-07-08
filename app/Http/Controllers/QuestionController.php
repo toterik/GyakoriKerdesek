@@ -7,6 +7,7 @@ use App\Models\Like;
 use App\Models\Question;
 use App\Models\Topic;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 class QuestionController
@@ -25,7 +26,7 @@ class QuestionController
     public function showQuestionCreationForm(Request $request)
     {
         
-        $topics = Topic::all();
+        $topics = Topic::all()->where('is_visible','true');
         return view('questions.create', compact('topics'));
     }
     
@@ -33,7 +34,7 @@ class QuestionController
     {
         $request->validate([
             'topic' => 'required|string',
-            'title' => 'required|string|max:30',
+            'title' => 'required|string|max:30|unique:questions,title',
             'body' => 'required|string',
         ]);
         
@@ -45,7 +46,7 @@ class QuestionController
         $body = $request->body;
 
 
-        $question = Question::create([
+         Question::create([
             'user_id' => $userId,
             'topic_id' => $topicId,
             'title' => $title,
@@ -53,7 +54,7 @@ class QuestionController
         ]);
     
     
-        return view('questions.index');
+        return redirect()->back();
     }
 
     public function show(Request $request)
@@ -63,5 +64,25 @@ class QuestionController
         $answers = Answer::where('question_id', $request->questionId)->paginate(10);
        
         return view('questions.show', compact('question', 'answers','userName'));
+    }
+
+    public function deleteQuestion(Request $request)
+    {
+        $questionId = $request->questionId;
+        $question = Question::find($questionId);
+        $topicName = Topic::find($question->topic_id)->name;
+
+        
+        if ($question) {
+            if (Auth::user()->is_admin)
+             {
+                $question->delete();
+                return redirect()->route('questions.index', ['topicName' => $topicName])->with('success', 'Question deleted successfully!');
+            } else 
+            {
+                return redirect()->route('questions.index', ['topicName' => $topicName])->with('error', 'Unauthorized action.');
+            }
+        }
+        return redirect()->route('questions.index', ['topicName' => $topicName])->with('error', 'Question not found.');
     }
 }

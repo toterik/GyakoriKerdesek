@@ -22,6 +22,7 @@ Route::get('/questions/{topicName}', [QuestionController::class, 'showQuestionsB
 Route::get('/createQuestion', [QuestionController::class, 'showQuestionCreationForm'])->name('questions.create');
 Route::post('/questions', [QuestionController::class, 'createNewQuestion'])->name('questions.store');
 Route::get('/questions/{topicName}/{questionId}', [QuestionController::class, 'show'])->name('questions.show');
+Route::post('/deleteQuestion/{questionId}', [QuestionController::class,'deleteQuestion'])->name('questions.delete');
 
 Route::post('/createAnswer', [AnswerController::class,'createAnswer'])->name('answers.create');
 Route::post('/deleteAnswer/{answerId}', [AnswerController::class,'deleteAnswer'])->name('answers.delete');

@@ -11,6 +11,11 @@ class Topic extends Model
 
     protected $table = 'topics';
     protected $primaryKey = 'id';
-
     public $timestamps = false;
+    protected $fillable = [
+        'user_id',
+        'topic_id',
+        'title',
+        'body'
+     ];
 }

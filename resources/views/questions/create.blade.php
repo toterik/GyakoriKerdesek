@@ -18,7 +18,7 @@
     @endif
 
 
-    @include('menu.nav');
+    @include('menu.nav')
     <h2>Submit Your Post</h2>
     <form action="{{ route('questions.store') }}" method="post">
         @csrf

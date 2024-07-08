@@ -6,7 +6,7 @@
     <title>Register</title>
 </head>
 <body>
-    @include('menu.nav');   
+    @include('menu.nav') 
     <div class="container">
         <h1>Register</h1>
         @if ($errors->any())

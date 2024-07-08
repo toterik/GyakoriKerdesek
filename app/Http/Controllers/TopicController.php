@@ -11,11 +11,11 @@ class TopicController extends Controller
     {
         if (auth()->user() == null || !auth()->user()->is_admin) 
         {
-            $topics = Topic::all()->where("is_visible",'true');
+            $topics = Topic::where('is_visible', true)->orderBy('name', 'asc')->get();
         }
         else
         {
-            $topics = Topic::all();
+            $topics = Topic::orderBy('name', 'asc')->get();
         }
        
 
