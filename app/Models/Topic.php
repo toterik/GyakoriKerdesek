@@ -13,9 +13,8 @@ class Topic extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
     protected $fillable = [
-        'user_id',
-        'topic_id',
-        'title',
-        'body'
+        'name',
+        'description',
+        'is_visible'
      ];
 }

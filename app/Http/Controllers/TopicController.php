@@ -23,23 +23,6 @@ class TopicController extends Controller
     }
 
     
-    public function setTopicVisibility(Request $request,)
-    {
-        $id = $request->id;
-        $topic = Topic::find($id);
-
-        if ($topic) 
-        {
-       
-            $topic->is_visible = !$topic->is_visible;
-            $topic->save();
-
-            return redirect()->back()->with('success', 'Topic visibility updated successfully!');
-        }
-
-        return redirect()->back()->with('error', 'Topic not found.');
-    }
-    
     public function showEditTopicForm(Request $request)
     {
         $topic = Topic::find($request->id);
@@ -58,6 +41,31 @@ class TopicController extends Controller
             'description' => $description,
             'is_visible'=> $is_visible]);
 
+        return redirect()->route('index');
+    }
+    public function createTopic(Request $request)
+    {
+        $name =$request->topicName;
+        $description = $request->description;
+        $is_visible = $request->is_visible;
+        Topic::create([
+            'name'=>$name,
+            'description' => $description,
+            'is_visible'=> $is_visible]);
+
+            return redirect()->route('index');
+    }
+    
+    public function showCreateForm()
+    {
+        return view('topics.create');
+    }
+
+    public function deleteTopic(Request $request)
+    {
+        $id = $request->id;
+        print($id);
+        Topic::find($id)->delete();
         return redirect()->route('index');
     }
 }
