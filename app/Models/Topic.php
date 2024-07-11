@@ -17,4 +17,8 @@ class Topic extends Model
         'description',
         'is_visible'
      ];
+     public function questions()
+     {
+         return $this->hasMany(Question::class);
+     }
 }

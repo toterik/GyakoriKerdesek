@@ -15,4 +15,18 @@ class Question extends Model
         'title',
         'body'
      ];
+     public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
+
+    public function topic()
+    {
+        return $this->belongsTo(Topic::class);
+    }
 }

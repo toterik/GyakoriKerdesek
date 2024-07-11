@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TopicController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -26,6 +27,10 @@ Route::get('/createQuestion', [QuestionController::class, 'showQuestionCreationF
 Route::post('/questions', [QuestionController::class, 'createNewQuestion'])->name('questions.store');
 Route::get('/questions/{topicName}/{questionId}', [QuestionController::class, 'show'])->name('questions.show');
 Route::post('/deleteQuestion/{questionId}', [QuestionController::class,'deleteQuestion'])->name('questions.delete');
+Route::post('/deleteQuestionFromProfile/{questionId}', [QuestionController::class,'deleteFromProfile'])->name('questions.deleteFromProfile');
+
 
 Route::post('/createAnswer', [AnswerController::class,'createAnswer'])->name('answers.create');
 Route::post('/deleteAnswer/{answerId}', [AnswerController::class,'deleteAnswer'])->name('answers.delete');
+
+Route::get('/profile/{userId}', [UserController::class,'index'])->name('users.profile');

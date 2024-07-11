@@ -4,12 +4,11 @@
 
 @section('content')
     <h1>{{ $question->title }} by {{$userName}} at {{$question->created_at}}</h1>
-    @if (Auth::user() != null && Auth::user()->is_admin)
+    @if (Auth::user() != null && Auth::user()->is_admin || Auth::user()->id == $question->user_id)
         <form action="{{ route('questions.delete', $question->id) }}"
         method="POST" onsubmit="return confirm('Are you sure you want to delete this question?');">
             @csrf
             <input type="image" src="{{ asset('images/x.png') }}" alt="Delete"  style="width: 16px; height: 16px;">
-
         </form>
     @endif
     <p>{{ $question->body }}</p>

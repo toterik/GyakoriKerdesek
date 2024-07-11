@@ -70,19 +70,16 @@ class QuestionController
     {
         $questionId = $request->questionId;
         $question = Question::find($questionId);
+        $question->delete();
         $topicName = Topic::find($question->topic_id)->name;
-
-        
-        if ($question) {
-            if (Auth::user()->is_admin)
-             {
-                $question->delete();
-                return redirect()->route('questions.index', ['topicName' => $topicName])->with('success', 'Question deleted successfully!');
-            } else 
-            {
-                return redirect()->route('questions.index', ['topicName' => $topicName])->with('error', 'Unauthorized action.');
-            }
-        }
-        return redirect()->route('questions.index', ['topicName' => $topicName])->with('error', 'Question not found.');
+        return redirect()->route('questions.index', ['topicName' => $topicName])->with('success', 'Question deleted successfully!');    
+ 
     }
+    public function deleteFromProfile(Request $request)
+    {
+        $questionId = $request->questionId;
+        Question::find($questionId)->delete();
+        return redirect()->route('users.profile', ['userId' => Auth::user()->id]);              
+    }
+    
 }
