@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [TopicController::class, 'index'])->name('index');
-Route::post('/setTopicVisibility/{id}', [TopicController::class, 'setTopicVisibility'])->name('topics.setVisibilty');
 Route::post('/editTopicForm/{id}', [TopicController::class, 'showEditTopicForm'])->name('topics.showEditTopicForm');
 Route::post('/editTopic/{id}', [TopicController::class, 'editTopic'])->name('topics.editTopic');
-
+Route::post('/createTopic', [TopicController::class, 'createTopic'])->name('topics.createTopic');
+Route::post('/deleteTopic/{id}', [TopicController::class, 'deleteTopic'])->name('topics.delete');
+Route::get('/showCreateForm', [TopicController::class, 'showCreateForm'])->name('topics.showCreateForm');
 
 Route::get('/registration', [RegistrationController::class, 'showRegistrationForm'])->name('registration.form');
 Route::post('/signUp', [RegistrationController::class, 'signUp'])->name('signUp');;

@@ -14,6 +14,9 @@
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
+            @if (Auth::user()->is_admin)
+                <a href="{{ route('topics.showCreateForm') }}">Add New Topic</a>
+            @endif
         @else
             <p>Welcome, stranger</p>
                 <a href="{{ route('index') }}">Kezdőlap</a>
