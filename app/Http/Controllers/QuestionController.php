@@ -61,7 +61,41 @@ class QuestionController
     {
         $question = Question::where('id', $request->questionId)->first();
         $userName = User::find($question->user_id)->username;
-        $answers = Answer::where('question_id', $request->questionId)->with('user')->paginate(10);
+        $answers = Answer::where('question_id', $request->questionId)
+                 ->with('user')
+                 ->withCount([
+                     'likes as upvotes_count' => function ($query) {
+                         $query->where('type', true);
+                     },
+                     'likes as downvotes_count' => function ($query) {
+                         $query->where('type', false);
+                     }
+                 ])
+                 ->paginate(10);
+
+        $loggedInUser = Auth::user();
+
+        foreach ($answers as $answer) 
+        {
+            $answer->net_score = $answer->upvotes_count - $answer->downvotes_count;
+    
+           
+            if ($loggedInUser) 
+            {
+                $vote = $answer->likes()->where('user_id', $loggedInUser->id)->first();
+    
+                if ($vote) 
+                {
+                    $answer->user_vote = $vote->type; 
+                } else 
+                {
+                    $answer->user_vote = null; 
+                }
+            } else 
+            {
+                $answer->user_vote = null;
+            }
+        }
 
         return view('questions.show', compact('question', 'answers','userName'));
     }
