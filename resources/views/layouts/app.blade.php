@@ -14,6 +14,7 @@
 
                 @if (Auth::user()->is_admin)
                     <a href="{{ route('topics.showCreateForm') }}">Add New Topic</a>
+                    <a href="{{ route('users.list') }}">List profiles</a>
                 @endif
 
                 <a href="javascript:void(0)" onclick="document.getElementById('logout-form').submit();">Kijelentkezés</a>

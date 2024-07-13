@@ -29,8 +29,11 @@ Route::get('/questions/{topicName}/{questionId}', [QuestionController::class, 's
 Route::post('/deleteQuestion/{questionId}', [QuestionController::class,'deleteQuestion'])->name('questions.delete');
 Route::post('/deleteQuestionFromProfile/{questionId}', [QuestionController::class,'deleteFromProfile'])->name('questions.deleteFromProfile');
 
-
 Route::post('/createAnswer', [AnswerController::class,'createAnswer'])->name('answers.create');
 Route::post('/deleteAnswer/{answerId}', [AnswerController::class,'deleteAnswer'])->name('answers.delete');
 
-Route::get('/profile/{userId}', [UserController::class,'index'])->name('users.profile');
+Route::get('/profile/{userId}', [UserController::class, 'index'])->name('users.profile');
+Route::get('/listUsers', [UserController::class, 'listUsers'])->name('users.list');
+Route::post('/deleteUser/{userId}', [UserController::class, 'deleteUser'])->name('users.delete');
+Route::get('/EditUserForm/{userId}', [UserController::class, 'showEditUserForm'])->name('users.showEditUserForm');
+Route::put('/EditUser/{userId}', [UserController::class, 'editUser'])->name('users.editUser');
