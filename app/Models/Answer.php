@@ -29,5 +29,15 @@ class Answer extends Model
      {
         return $this->hasMany(Like::class);
      }
+
+     public function upvotes()
+     {
+         return $this->likes()->where('type', true);
+     }
+ 
+     public function downvotes()
+     {
+         return $this->likes()->where('type', false);
+     }
 }
 

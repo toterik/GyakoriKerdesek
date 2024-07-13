@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RegistrationController;
@@ -37,3 +38,6 @@ Route::get('/listUsers', [UserController::class, 'listUsers'])->name('users.list
 Route::post('/deleteUser/{userId}', [UserController::class, 'deleteUser'])->name('users.delete');
 Route::get('/EditUserForm/{userId}', [UserController::class, 'showEditUserForm'])->name('users.showEditUserForm');
 Route::put('/EditUser/{userId}', [UserController::class, 'editUser'])->name('users.editUser');
+
+Route::post('vote/{answerId}', [LikeController::class,'vote'])->name('likes.vote');
+

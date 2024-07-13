@@ -28,7 +28,7 @@ class UserController
         {
             return redirect(route('index'))->withErrors('You do not have access to this function.');
         }
-        $users = User::all();
+        $users = User::orderBy('id')->get();
         return view('users.list', compact('users'));
     }
     
@@ -49,11 +49,8 @@ class UserController
             'email' => 'required|email',
             'username' => 'required|min:3',
         ]);
-        $id = $request->userId;
 
-        
-       
-
+        $id = $request->userId;        
         User::where('id',$id)->update([
             'username' => $request->input('username'),
             'email' => $request->input('email'),
