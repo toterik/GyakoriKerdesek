@@ -8,8 +8,8 @@
         <nav>
             @if (Auth::check())
                 <p>Welcome, {{ Auth::user()->username }}</p>
-                <a href="{{ route('index') }}">Kezdőlap</a>
-                <a href="{{ route('questions.create') }}">Tegyél fel egy új kérdést</a> 
+                <a href="{{ route('index') }}">Start Page</a>
+                <a href="{{ route('questions.create') }}">Ask A New Question</a> 
                 <a href="{{ route('users.profile', ['userId' => Auth::user()->id]) }}">Profile</a>
 
                 @if (Auth::user()->is_admin)
@@ -17,17 +17,17 @@
                     <a href="{{ route('users.list') }}">List profiles</a>
                 @endif
 
-                <a href="javascript:void(0)" onclick="document.getElementById('logout-form').submit();">Kijelentkezés</a>
+                <a href="javascript:void(0)" onclick="document.getElementById('logout-form').submit();">Logout</a>
                 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             @else
                 <p>Welcome, stranger</p>
-                <a href="{{ route('index') }}">Kezdőlap</a>
-                <a href="{{ route('questions.create') }}">Tegyél fel egy új kérdést</a> 
-                <a href="{{ route('registration.form') }}">Regisztráció</a>
-                <a href="{{ route('login.form') }}">Bejelentkezés</a>
+                <a href="{{ route('index') }}">Start Page</a>
+                <a href="{{ route('questions.create') }}">Ask A New Question</a> 
+                <a href="{{ route('registration.form') }}">Registration</a>
+                <a href="{{ route('login.form') }}">Login</a>
             @endif
         </nav>
     </header>
