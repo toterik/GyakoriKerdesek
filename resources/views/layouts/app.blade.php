@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Your Application')</title>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body>
     <header>
         <nav>
             @if (Auth::check())
-                <p>Welcome, {{ Auth::user()->username }}</p>
                 <a href="{{ route('index') }}">Start Page</a>
                 <a href="{{ route('questions.create') }}">Ask A New Question</a> 
                 <a href="{{ route('users.profile', ['userId' => Auth::user()->id]) }}">Profile</a>
@@ -23,7 +25,6 @@
                     @csrf
                 </form>
             @else
-                <p>Welcome, stranger</p>
                 <a href="{{ route('index') }}">Start Page</a>
                 <a href="{{ route('questions.create') }}">Ask A New Question</a> 
                 <a href="{{ route('registration.form') }}">Registration</a>

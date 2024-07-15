@@ -3,10 +3,11 @@
 @section('title', 'Index')
 
 @section('content')
+    
     <h1>Select a Topic</h1>
     <ul>
     @foreach ($topics as $topic)
-        <li>
+        <p>
             <a href="{{ route('questions.index', ['topicName' => $topic->name]) }}" title="{{ $topic->description }}">
                 {{ $topic->name }}
             </a>
@@ -21,7 +22,7 @@
                         <input type="image" src="{{ asset('images/edit.png') }}" alt="edit" style="width: 16px; height: 16px;">
                 </form>
             @endif
-        </li>
+        </p>
     @endforeach
     </ul>
     <h1>Most Popular Questions Last Week</h1>
@@ -41,6 +42,5 @@
                 </a>
             </p>       
         @endforeach
-</body>
-</html>
+        
 @endsection
