@@ -24,7 +24,23 @@
         </li>
     @endforeach
     </ul>
+    <h1>Most Popular Questions Last Week</h1>
+        @foreach ($popularQuestions as $question)
+            <p>
+                <a href="{{ route('questions.show', ['topicName' => $question->topic->name, 'questionId' => $question->id]) }}">
+                    {{ $question->title }}
+                </a>
+            </p>       
+        @endforeach
 
+    <h1>Questions That haven't been answered</h1>
+        @foreach ($randomUnansweredQuestions as $question)
+            <p>
+                <a href="{{ route('questions.show', ['topicName' => $question->topic->name, 'questionId' => $question->id]) }}">
+                    {{ $question->title }}
+                </a>
+            </p>       
+        @endforeach
 </body>
 </html>
 @endsection

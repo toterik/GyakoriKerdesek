@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Models\Topic;
+use App\Models\Question;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TopicController extends Controller
 {
@@ -18,8 +20,26 @@ class TopicController extends Controller
             $topics = Topic::orderBy('name', 'asc')->get();
         }
        
+        $now = Carbon::now();
+        $oneWeekAgo = $now->subWeek();
+    
+     
+        $popularQuestions = Question::with('topic')
+            ->select('questions.*')
+            ->join('answers', 'questions.id', '=', 'answers.question_id')
+            ->where('answers.created_at', '>=', $oneWeekAgo)
+            ->groupBy('questions.id')
+            ->orderByRaw('COUNT(answers.id) DESC')
+            ->take(10)
+            ->get();
+        
+        $randomUnansweredQuestions = Question::with('topic')
+        ->whereDoesntHave('answers')
+        ->inRandomOrder()
+        ->limit(10)
+        ->get();
 
-        return view('welcome', compact('topics'));
+        return view('welcome', compact('topics','popularQuestions','randomUnansweredQuestions'));
     }
 
     
