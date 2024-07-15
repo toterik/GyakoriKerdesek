@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, \Illuminate\Contracts\Auth\CanResetPassword
 {
-    use Notifiable;
+    use Notifiable, CanResetPasswordTrait;
 
     protected $fillable = [
         'username',
@@ -26,6 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public function answers()
     {
         return $this->hasMany(Answer::class);
@@ -34,5 +36,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function questions()
     {
         return $this->hasMany(Question::class);
-    }    
+    }
 }
