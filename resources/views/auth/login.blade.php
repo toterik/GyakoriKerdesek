@@ -3,28 +3,30 @@
 @section('title', 'Login')
 
 @section('content')
-    <div class="container">
-        <h1>Login</h1>
-        @if (session('error'))
-            <div>
-                <strong>{{ session('error') }}</strong>
-            </div>
-        @endif
+<h1>Login</h1>
+<div class="container">
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+    @if (session('error'))
+        <div>
+            <strong>{{ session('error') }}</strong>
+        </div>
+    @endif
 
-            <label for="email">Email:</label>
-            <input type="email" name="email" required>
+    <form method="POST" class="form-stlye" action="{{ route('login') }}">
+        @csrf
 
-            <label for="password">Password:</label>
-            <input type="password" name="password" required>
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
 
-            <button type="submit">Login</button>
-        </form>
-
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+        <br>
+        <button type="submit" value="Login">Bejelentkezés </button>
         <div>
             <a href="{{ route('password.request') }}">Forgot Your Password?</a>
         </div>
-    </div>
+    </form>
+
+
+</div>
 @endsection

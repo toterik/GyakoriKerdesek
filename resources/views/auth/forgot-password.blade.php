@@ -3,31 +3,32 @@
 @section('title', 'Forgot Password')
 
 @section('content')
-    <div class="container">
-        <h1>Forgot Your Password?</h1>
-        @if (session('status'))
-            <div>
-                {{ session('status') }}
-            </div>
-        @endif
+<h1>Forgot Your Password?</h1>
+<div class="container">
 
-        @if ($errors->any())
-            <div>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    @if (session('status'))
+        <div>
+            {{ session('status') }}
+        </div>
+    @endif
 
-        <form method="POST" action="{{ route('password.email') }}">
-            @csrf
+    @if ($errors->any())
+        <div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-            <label for="email">Email Address:</label>
-            <input type="email" id="email" name="email" value="{{ old('email') }}" required>
+    <form method="POST" class="form-stlye" action="{{ route('password.email') }}">
+        @csrf
 
-            <button type="submit">Send Password Reset Link</button>
-        </form>
-    </div>
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" value="{{ old('email') }}" required>
+        <br>
+        <button type="submit">Send Password Reset Link</button>
+    </form>
+</div>
 @endsection

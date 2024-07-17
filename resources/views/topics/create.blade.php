@@ -5,7 +5,7 @@
 @section('content')
 <h1>Create topic</h1>
 
-<form action="{{ route('topics.createTopic') }}" method="POST">
+<form action="{{ route('topics.createTopic') }}" class = "form-stlye"method="POST">
     @csrf
     <div >
         <label for="name">Name</label>
@@ -25,6 +25,6 @@
         </select>
     </div>
     
-    <button type="submit">Create topic</button>
+    <button type="submit" value="Create topic">Create Topic</input>
 </form>  
 @endsection
