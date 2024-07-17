@@ -3,68 +3,71 @@
 @section('title', 'Question ')
 
 @section('content')
-    <h1>{{ $question->title }} by {{$userName}} at {{$question->created_at}}</h1>
-    @if (Auth::user() != null && (Auth::user()->is_admin || Auth::user()->id == $question->user_id))
-        <form action="{{ route('questions.delete', $question->id) }}"
-        method="POST" onsubmit="return confirm('Are you sure you want to delete this question?');">
-            @csrf
-            <input type="image" src="{{ asset('images/x.png') }}" alt="Delete"  style="width: 16px; height: 16px;">
-        </form>
-    @endif
-    <p>{{ $question->body }}</p>
+<div id="question">
+    <p class="right-align">{{$userName}} {{$question->created_at->format('Y-m-d')}}</p>
+    <div class="title-container">
+        <h1 id="question_title">{{ $question->title }}</h1>
+        @if (Auth::user() != null && (Auth::user()->is_admin || Auth::user()->id == $question->user_id))
+            <form action="{{ route('questions.delete', $question->id) }}" method="POST"
+                onsubmit="return confirm('Are you sure you want to delete this question?');" class="delete-form">
+                @csrf
+                <input type="image" src="{{ asset('images/x.png') }}" alt="Delete" class="form-image">
+            </form>
+        @endif
+    </div>
 
-    @if (count($answers) == 0)
-        <h3>Be the first one to answer this question!!</h3>
-    @else
-    <h2>Answers:</h2>
-    <ul>
+    <p class="left-align">{{ $question->body }}</p>
+</div>
+
+
+
+@if (count($answers) == 0)
+    <h2>Be the first one to answer this question!!</h2>
+@else
+<ul class="answers-list">
     @foreach ($answers as $answer)
-        <li>
-            {{ $answer->body }}
+        <li class="answer-item">
+            <p class="answer-body">{{ $answer->body }}</p>
             @if (Auth::user() != null && Auth::user()->is_admin)
-                <form action="{{ route('answers.delete', $answer->id) }}"
-                method="POST" onsubmit="return confirm('Are you sure you want to delete this answer?');">
+                <form action="{{ route('answers.delete', $answer->id) }}" method="POST"
+                    onsubmit="return confirm('Are you sure you want to delete this answer?');">
                     @csrf
-                    <input type="image" src="{{ asset('images/x.png') }}" alt="Delete"  style="width: 16px; height: 16px;">
+                    <input type="image" src="{{ asset('images/x.png') }}" alt="Delete" class="delete-button">
                 </form>
             @endif
-
-            <p><small>Answered by: {{ $answer->user->username }}</small></p>
-
-            <form action="{{ route('likes.vote', $answer->id) }}" method="POST" >
+            <p class="answered-by">Answered by: <span class="username">{{ $answer->user->username }}</span></p>
+            <form action="{{ route('likes.vote', $answer->id) }}" method="POST" class="vote-form">
                 @csrf
                 <input type="image" src="{{ $answer->user_vote == true ? asset('images/upvoted.png') : asset('images/upvote.png') }}"
-                        alt="Upvote" style="width: 16px; height: 16px;">
+                    alt="Upvote" class="vote-up">
                 <input type="hidden" name="vote_type" value="1">
             </form>
-            Net score: {{ $answer->net_score }}
-            <form action="{{ route('likes.vote', $answer->id) }}" method="POST">
+            <span class="score">{{ $answer->net_score }}</span>
+            <form action="{{ route('likes.vote', $answer->id) }}" method="POST" class="vote-form">
                 @csrf
                 <input type="image" src="{{ $answer->user_vote === false ? asset('images/downvoted.png') : asset('images/downvote.png') }}"
-                        alt="Downvote" style="width: 16px; height: 16px;">
+                    alt="Downvote" class="vote-down">
                 <input type="hidden" name="vote_type" value="0">
             </form>
-
         </li>
     @endforeach
-    </ul>
-    @endif
+</ul>
+@endif
 
-    {{ $answers->links() }}
+{{ $answers->links('pagination::bootstrap-4') }}
 
-    @if (Auth::check())
-        <h2>Submit your answer:</h2>
-        <form action="{{route('answers.create')}} " method="POST">
-            @csrf
-            <input type="hidden" name="question_id" value="{{ $question->id }}">
-            <div>
-                <textarea name="body" rows="5" cols="50" placeholder="Type your answer here..." required></textarea>
-            </div>
-            <div>
-                <button type="submit">Submit Answer</button>
-            </div>
-        </form>
-    @else
-        <h3>You need to <a href="{{ route('login') }}">log in</a> to submit an answer.</h3>
-    @endauth
+@if (Auth::check())
+    <form action="{{route('answers.create')}} " method="POST">
+        @csrf
+        <input type="hidden" name="question_id" value="{{ $question->id }}">
+        <div>
+            <textarea name="body" rows="5" cols="50" placeholder="Type your answer here..." required></textarea>
+        </div>
+        <div>
+            <button type="submit">Submit Answer</button>
+        </div>
+    </form>
+@else
+<h3>You need to <a href="{{ route('login') }}">log in</a> to submit an answer.</h3>
+@endauth
 @endsection

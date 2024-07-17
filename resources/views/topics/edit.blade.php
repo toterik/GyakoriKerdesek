@@ -3,30 +3,26 @@
 @section('title', 'Edit Topic')
 
 @section('content')
-    <h1>Edit topic</h1>
+<div class="content">
+    <h2>Edit topic</h2>
 
-    <form action="{{ route('topics.editTopic', $topic->id) }}" method="POST">
+    <form action="{{ route('topics.editTopic', $topic->id) }}" class="form-stlye" method="POST">
         @csrf
+        <label for="name">Name</label>
+        <input type="text" id = "title" name="topicName" value="{{ $topic->name }}" required>
 
-        <div >
-            <label for="name">Name</label>
-            <input type="text" name="topicName" value="{{ $topic->name }}" required>
-        </div>
+        <label for="description">Description</label>
+        <textarea name="description" required>{{ $topic->description }}</textarea>
 
-        <div>
-            <label for="description">Description</label>
-            <textarea name="description" required>{{ $topic->description }}</textarea>
-        </div>
+        <label for="is_visible">Is Visible</label>
+        <select name="is_visible" id="is_visible" required>
+            <option value="1" {{ $topic->is_visible ? 'selected' : '' }}>Yes</option>
+            <option value="0" {{ !$topic->is_visible ? 'selected' : '' }}>No</option>
+        </select>
 
-        <div>
-            <label for="is_visible">Is Visible</label>
-            <select name="is_visible" id="is_visible" class="form-control" required>
-                <option value="1" {{ $topic->is_visible ? 'selected' : '' }}>Yes</option>
-                <option value="0" {{ !$topic->is_visible ? 'selected' : '' }}>No</option>
-            </select>
-        </div>
-        
-        <button type="submit">Update topic</button>
-    </form>  
+        <br>
 
+        <button type="submit" value = "Update Topic">Edit Topic</input>
+    </form>
+</div>
 @endsection

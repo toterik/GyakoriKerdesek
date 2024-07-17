@@ -15,7 +15,7 @@
         </div>
     @endif
 
-    <form action="{{ route('users.editUser', $user->id) }}" method="POST">
+    <form action="{{ route('users.editUser', $user->id) }}" class = "form-stlye" method="POST">
         @csrf
         @method('PUT')
         <div>
@@ -35,6 +35,6 @@
             <input type="checkbox" id="is_admin" name="is_admin" {{ old('is_admin', $user->is_admin) ? 'checked' : '' }}>
         </div>
         <input type="hidden" name="userId" value="{{ $user->id }}">
-        <button type="submit">Update Profile</button>
+        <button type="submit" value="Update Profile">Edit Profile</input>
     </form>
 @endsection

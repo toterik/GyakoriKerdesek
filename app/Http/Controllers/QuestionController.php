@@ -34,7 +34,7 @@ class QuestionController
     {
         $request->validate([
             'topic' => 'required|string',
-            'title' => 'required|string|max:30|unique:questions,title',
+            'title' => 'required|string|max:40|unique:questions,title',
             'body' => 'required|string',
         ]);
         
@@ -46,15 +46,16 @@ class QuestionController
         $body = $request->body;
 
 
-         Question::create([
+        $question = Question::create([
             'user_id' => $userId,
             'topic_id' => $topicId,
             'title' => $title,
             'body' => $body
         ]);
-    
-    
-        return redirect()->back();
+        $questionId = $question->id;
+        
+        return redirect()->route('questions.show', ['topicName' => $topicName, 'questionId' => $questionId]);   
+        
     }
 
     public function show(Request $request)
