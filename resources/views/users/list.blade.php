@@ -41,6 +41,7 @@
                                     <form action="{{ route('users.delete', $user->id) }}"
                                     method="POST" onsubmit="return confirm('Are you sure you want to delete this user ({{$user->username}})?');">
                                     @csrf
+                                    @method('DELETE')
                                     <input type="image" src="{{ asset('images/x.png') }}" alt="Delete"  class="form-image">
                                     </form>
                                 @endif 

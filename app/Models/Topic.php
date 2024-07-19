@@ -10,15 +10,19 @@ class Topic extends Model
     use HasFactory;
 
     protected $table = 'topics';
+
     protected $primaryKey = 'id';
+
     public $timestamps = false;
+
     protected $fillable = [
         'name',
         'description',
-        'is_visible'
-     ];
-     public function questions()
-     {
-         return $this->hasMany(Question::class);
-     }
+        'is_visible',
+    ];
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 }

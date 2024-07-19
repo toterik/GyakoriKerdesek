@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="content">
-    <h2>Submit Your Post</h2>
+    <h2>Create your question</h2>
     <form action="{{ route('questions.store') }}" class="form-stlye" method="post">
         @csrf
         <label for="title">Title:</label>
@@ -19,7 +19,7 @@
 
 
         @if (Auth::check())
-            <input type="submit" value="Submit">
+            <button type="submit" value="Submit">Submit </button>
             <input type="hidden" value="{{Auth::user()->id}}">
         @else
             <input type="submit" value="Submit" disabled> Please Login to ask your question
