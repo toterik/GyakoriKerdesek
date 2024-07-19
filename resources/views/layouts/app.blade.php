@@ -10,7 +10,7 @@
 
 <body>
     <header>
-        <nav>
+        <nav class="nav">
             @if (Auth::check())
                 <a href="{{ route('index') }}">Start Page</a>
                 <a href="{{ route('questions.create') }}">Ask A New Question</a>

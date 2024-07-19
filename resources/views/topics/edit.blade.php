@@ -8,6 +8,7 @@
 
     <form action="{{ route('topics.editTopic', $topic->id) }}" class="form-stlye" method="POST">
         @csrf
+        @method('PUT')
         <label for="name">Name</label>
         <input type="text" id = "title" name="topicName" value="{{ $topic->name }}" required>
 

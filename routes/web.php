@@ -25,13 +25,13 @@ Route::get('/questions/{topicName}/{questionId}', [QuestionController::class, 's
 // Admin-specific routes (authenticated and admin users)
 Route::middleware([UserMiddleware::class, AdminMiddleware::class])->group(function () {
     Route::post('/editTopicForm/{id}', [TopicController::class, 'showEditTopicForm'])->name('topics.showEditTopicForm');
-    Route::post('/editTopic/{id}', [TopicController::class, 'editTopic'])->name('topics.editTopic');
+    Route::put('/editTopic/{id}', [TopicController::class, 'editTopic'])->name('topics.editTopic');
     Route::post('/createTopic', [TopicController::class, 'createTopic'])->name('topics.createTopic');
-    Route::post('/deleteTopic/{id}', [TopicController::class, 'deleteTopic'])->name('topics.delete');
+    Route::delete('/deleteTopic/{id}', [TopicController::class, 'deleteTopic'])->name('topics.delete');
     Route::get('/showCreateForm', [TopicController::class, 'showCreateForm'])->name('topics.showCreateForm');
     
     Route::get('/listUsers', [UserController::class, 'listUsers'])->name('users.list');
-    Route::post('/deleteUser/{userId}', [UserController::class, 'deleteUser'])->name('users.delete');
+    Route::delete('/deleteUser/{userId}', [UserController::class, 'deleteUser'])->name('users.delete');
 });
 
 // Guest-specific routes
@@ -93,12 +93,12 @@ Route::middleware(UserMiddleware::class)->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     // Routes for questions
-    Route::post('/deleteQuestion/{questionId}', [QuestionController::class,'deleteQuestion'])->name('questions.delete');
-    Route::post('/deleteQuestionFromProfile/{questionId}', [QuestionController::class,'deleteFromProfile'])->name('questions.deleteFromProfile');
+    Route::delete('/deleteQuestion/{questionId}', [QuestionController::class,'deleteQuestion'])->name('questions.delete');
+    Route::delete('/deleteQuestionFromProfile/{questionId}', [QuestionController::class,'deleteFromProfile'])->name('questions.deleteFromProfile');
 
     // Routes for answers
     Route::post('/createAnswer', [AnswerController::class,'createAnswer'])->name('answers.create');
-    Route::post('/deleteAnswer/{answerId}', [AnswerController::class,'deleteAnswer'])->name('answers.delete');
+    Route::delete('/deleteAnswer/{answerId}', [AnswerController::class,'deleteAnswer'])->name('answers.delete');
 
     // Routes for user profiles and management
     Route::get('/profile/{userId}', [UserController::class, 'index'])->name('users.profile');

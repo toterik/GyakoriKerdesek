@@ -15,6 +15,7 @@
                         @if (Auth::user() != null && Auth::user()->is_admin)
                             <form action="{{ route('topics.delete', [$topic->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this topic?');">
                                 @csrf
+                                @method('DELETE')
                                 <input type="image" src="{{ asset('images/x.png') }}" class="form-image" alt="Delete">
                             </form>
                             <form action="{{ route('topics.showEditTopicForm', ['id' => $topic->id]) }}" method="POST">
