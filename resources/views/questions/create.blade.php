@@ -4,6 +4,17 @@
 
 @section('content')
 <div class="content">
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+
+                const errorMessages = @json($errors->all()).join('\n');
+
+                alert('Unsuccessful Login:\n\n' + errorMessages);
+            });
+        </script>
+    @endif
+
     <h2>Create your question</h2>
     <form action="{{ route('questions.store') }}" class="form-stlye" method="post">
         @csrf

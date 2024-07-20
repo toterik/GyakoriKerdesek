@@ -41,31 +41,38 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:8',
+        ], [
+            'email.required' => 'Email address is required.',
+            'email.email' => 'Invalid email address.',
+            'password.required' => 'Password is required.',
+            'password.min' => 'Password must be at least 8 characters long.',
         ]);
 
         // Find the user by email
         $user = User::where('email', $credentials['email'])->first();
 
         if (!$user) {
-            // Return back with an error if the user does not exist
-            return back()->with('error', 'The provided credentials do not match our records.');
+            return back()->withErrors([
+                'email' => 'No account found with this email address.',
+            ]);
         }
 
         if (!$user->is_active) {
-            // Return back with an error if the user is not active
-            return back()->with('error', 'This user is not active.');
+            return back()->withErrors([
+                'active' => 'This account is no longer active.',
+            ]);
         }
 
         // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
             // Regenerate the session to prevent fixation attacks
             $request->session()->regenerate();
-            // Redirect to the home page
             return redirect()->intended('/');
         }
 
-        // Return back with an error if authentication fails
-        return back()->with('error', 'The provided credentials do not match our records.');
+        return back()->withErrors([
+            'error' => 'The password doesn\'t match with the provided email.'
+        ]);
     }
 
     /**
@@ -87,8 +94,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         // Regenerate the session token
         $request->session()->regenerateToken();
-
-        // Redirect to the home page
         return redirect()->to('/'); 
     }
 }

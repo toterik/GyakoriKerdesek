@@ -24,7 +24,7 @@ Route::get('/questions/{topicName}/{questionId}', [QuestionController::class, 's
 
 // Admin-specific routes (authenticated and admin users)
 Route::middleware([UserMiddleware::class, AdminMiddleware::class])->group(function () {
-    Route::post('/editTopicForm/{id}', [TopicController::class, 'showEditTopicForm'])->name('topics.showEditTopicForm');
+    Route::get('/editTopicForm/{id}', [TopicController::class, 'showEditTopicForm'])->name('topics.showEditTopicForm');
     Route::put('/editTopic/{id}', [TopicController::class, 'editTopic'])->name('topics.editTopic');
     Route::post('/createTopic', [TopicController::class, 'createTopic'])->name('topics.createTopic');
     Route::delete('/deleteTopic/{id}', [TopicController::class, 'deleteTopic'])->name('topics.delete');

@@ -11,16 +11,17 @@
             {{ session('status') }}
         </div>
     @endif
-
     @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+
+                const errorMessages = @json($errors->all()).join('\n');
+
+                alert('Unsuccessful password reset :\n\n' + errorMessages);
+            });
+        </script>
     @endif
+
 
     <form method="POST" class="form-stlye" action="{{ route('password.email') }}">
         @csrf

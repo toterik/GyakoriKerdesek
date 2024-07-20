@@ -31,16 +31,14 @@ class QuestionController extends Controller
         $topic = Topic::where('name', $request->topicName)->first();
 
         if (!$topic) {
-            // Redirect back with an error if the topic is not found
             return redirect()->back()->with('error', 'Topic not found.');
         }
 
         // Get questions related to the topic
-        $questions = Question::where('topic_id', $topic->id)->get();
+        $questions = Question::where('topic_id', $topic->id)->paginate(20);
         $topicName = $request->topicName;
 
-        // Return the view with the questions and topic name
-        return view('questions.index', compact('questions', 'topicName')); 
+        return view('questions.index', compact('questions', 'topicName'));
     }
 
     /**
@@ -56,7 +54,6 @@ class QuestionController extends Controller
         // Get all visible topics
         $topics = Topic::where('is_visible', true)->get();
 
-        // Return the view for creating a new question with the topics
         return view('questions.create', compact('topics'));
     }
 
@@ -76,14 +73,18 @@ class QuestionController extends Controller
         $request->validate([
             'topic' => 'required|string',
             'title' => 'required|string|max:40|unique:questions,title',
-            'body' => 'required|string',
+            'body' => 'required|string|max:1000',
+        ], [
+            'title.max' => 'The title may not be greater than 40 characters.',
+            'title.unique' => 'There\'s a question already with this title!',
+            'body.max' => 'The question can\'t be longer than 1000 characters.',
         ]);
 
         // Find the topic ID by topic name
         $topicId = Topic::where('name', $request->topic)->value('id');
         // Get the authenticated user's ID
         $userId = Auth::id();
-        // Get title and body from the request
+
         $title = $request->title;
         $body = $request->body;
 
@@ -95,11 +96,11 @@ class QuestionController extends Controller
             'body' => $body,
         ]);
 
-        // Redirect to the newly created question's page
+
         return redirect()->route('questions.show', [
             'topicName' => $request->topic,
             'questionId' => $question->id
-        ]);   
+        ]);
     }
 
     /**
@@ -172,8 +173,7 @@ class QuestionController extends Controller
         // Delete the question
         $question->delete();
 
-        // Redirect back to the list of questions for the topic with a success message
-        return redirect()->route('questions.index', ['topicName' => $topicName])->with('success', 'Question deleted successfully!');    
+        return redirect()->route('questions.index', ['topicName' => $topicName])->with('success', 'Question deleted successfully!');
     }
 
     /**
@@ -190,7 +190,6 @@ class QuestionController extends Controller
         // Find and delete the question by ID
         Question::findOrFail($request->questionId)->delete();
 
-        // Redirect to the user's profile page
-        return redirect()->route('users.profile', ['userId' => Auth::id()]);              
+        return redirect()->route('users.profile', ['userId' => Auth::id()]);
     }
 }

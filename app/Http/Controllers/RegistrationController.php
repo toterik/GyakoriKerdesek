@@ -40,16 +40,24 @@ class RegistrationController extends Controller
             'username' => 'required|unique:users',
             'email' => 'required|unique:users|email',
             'password' => 'required|min:8|confirmed',
-        ]);
+        ], [
+            'username.required' => 'The username is required.',
+            'username.unique' => 'The username has already been taken.',
+            'email.required' => 'The email address is required.',
+            'email.unique' => 'The email address has already been taken.',
+            'email.email' => 'Please enter a valid email address.',
+            'password.required' => 'The password is required.',
+            'password.min' => 'The password must be at least 8 characters.',
+            'password.confirmed' => 'The password confirmation does not match.',
+            ]);
 
         // Create a new user with the validated data
-        $user = User::create([
+        User::create([
             'username' => $validated['username'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
 
-        // Redirect to the login form with a success message
         return redirect()->route('login.form')->with('success', 'Registration successful!');
     }
 }

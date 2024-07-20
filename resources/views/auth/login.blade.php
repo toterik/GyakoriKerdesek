@@ -6,13 +6,18 @@
 <h1>Login</h1>
 <div class="container">
 
-    @if (session('error'))
-        <div>
-            <strong>{{ session('error') }}</strong>
-        </div>
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+
+                const errorMessages = @json($errors->all()).join('\n');
+
+                alert('Unsuccessful Login:\n\n' + errorMessages);
+            });
+        </script>
     @endif
 
-    <form method="POST" class="form-stlye" action="{{ route('login') }}">
+    <form method="POST" class="form-container" action="{{ route('login') }}">
         @csrf
 
         <label for="email">Email:</label>
@@ -21,7 +26,7 @@
         <label for="password">Password:</label>
         <input type="password" name="password" required>
         <br>
-        <button type="submit" value="Login">Bejelentkezés </button>
+        <button type="submit" value="Login">Login </button>
         <div>
             <a href="{{ route('password.request') }}">Forgot Your Password?</a>
         </div>

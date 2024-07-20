@@ -34,7 +34,6 @@ class UserController extends Controller
         // Retrieve the user's questions along with their topics
         $questions = $user->questions()->with('topic')->get();
 
-        // Return the profile view with the user and their questions
         return view('users.profile', compact('user', 'questions'));
     }
 
@@ -56,7 +55,6 @@ class UserController extends Controller
         // Retrieve all users ordered by ID
         $users = User::orderBy('id')->get();
 
-        // Return the user list view with the list of users
         return view('users.list', compact('users'));
     }
 
@@ -74,7 +72,6 @@ class UserController extends Controller
         // Find the user by ID and delete them
         User::find($request->userId)->delete();
 
-        // Redirect to the user list view with a success message
         return redirect(route('users.list'))->with('success', 'User deleted successfully');
     }
 
@@ -92,7 +89,6 @@ class UserController extends Controller
         // Find the user by ID or fail
         $user = User::findOrFail($request->userId);
 
-        // Return the edit form view with the user
         return view('users.edit', compact('user'));
     }
 
@@ -110,8 +106,11 @@ class UserController extends Controller
     {
         // Validate the incoming request data
         $request->validate([
-            'email' => 'required|email',
-            'username' => 'required|min:3',
+            'email' => 'required|email|unique:users',
+            'username' => 'required|min:3|unique:users',
+        ],[
+            'email.unique' => 'The email has already been taken.',
+            'username.unique' => 'The username has already been taken.',        
         ]);
 
         $id = $request->userId;
@@ -123,7 +122,6 @@ class UserController extends Controller
             'is_active' => $request->has('is_active'),
         ]);
 
-        // Redirect to the user list view
         return redirect()->route('users.list');
     }
 }
