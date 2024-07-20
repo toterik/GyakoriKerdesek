@@ -55,7 +55,6 @@ class TopicController extends Controller
             ->limit(10)
             ->get();
 
-        // Return the view with topics, popular questions, and random unanswered questions
         return view('welcome', compact('topics', 'popularQuestions', 'randomUnansweredQuestions'));
     }
 
@@ -72,7 +71,6 @@ class TopicController extends Controller
         // Find the topic by ID or fail
         $topic = Topic::findOrFail($request->id);
 
-        // Return the edit form view with the topic
         return view('topics.edit', compact('topic'));
     }
 
@@ -89,11 +87,16 @@ class TopicController extends Controller
     public function editTopic(Request $request)
     {
         // Validate the incoming request data
-        $request->validate([
-            'topicName' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'is_visible' => 'required|boolean'
-        ]);
+        $request->validate(
+            [
+                'topicName' => 'required|string|max:255|unique:topics,name',
+                'description' => 'nullable|string',
+                'is_visible' => 'required|boolean'
+            ],
+            [
+                'topicName.unique' => 'This topic name is already taken',
+            ]
+        );        
 
         // Update the topic with the provided data
         Topic::where('id', $request->id)->update([
@@ -102,7 +105,6 @@ class TopicController extends Controller
             'is_visible' => $request->is_visible
         ]);
 
-        // Redirect to the homepage with a success message
         return redirect()->route('index')->with('success', 'Topic updated successfully.');
     }
 
@@ -118,11 +120,16 @@ class TopicController extends Controller
     public function createTopic(Request $request)
     {
         // Validate the incoming request data
-        $request->validate([
-            'topicName' => 'required|string|max:255|unique:topics,name',
-            'description' => 'nullable|string',
-            'is_visible' => 'required|boolean'
-        ]);
+        $request->validate(
+            [
+                'topicName' => 'required|string|max:255|unique:topics,name',
+                'description' => 'nullable|string',
+                'is_visible' => 'required|boolean'
+            ],
+            [
+                'topicName.unique' => 'This topic name is already taken',
+            ]
+        ); 
 
         // Create a new topic with the provided data
         Topic::create([
@@ -131,7 +138,6 @@ class TopicController extends Controller
             'is_visible' => $request->is_visible
         ]);
 
-        // Redirect to the homepage with a success message
         return redirect()->route('index')->with('success', 'Topic created successfully.');
     }
 
@@ -163,7 +169,6 @@ class TopicController extends Controller
         // Delete the topic
         $topic->delete();
 
-        // Redirect to the homepage with a success message
         return redirect()->route('index')->with('success', 'Topic deleted successfully.');
     }
 }

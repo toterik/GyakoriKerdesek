@@ -29,7 +29,6 @@ class LikeController
 
         // Get the authenticated user's ID
         $userId = Auth::user()->id;
-        // Get the answer ID and vote type from the request
         $answerId = $request->answerId;
         $type = $request->voteType;
 
@@ -51,8 +50,7 @@ class LikeController
                 'type' => $type,
             ]);
         }
-
-        // Redirect back to the previous page
+        
         return back();
     }
 }

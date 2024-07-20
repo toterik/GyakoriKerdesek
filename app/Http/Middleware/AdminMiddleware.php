@@ -34,7 +34,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        // Redirect to the welcome page with an alert message if the user is not an admin
         return redirect()->route('welcome')->with('alert', 'You don\'t have the authority to do this!');
     }
 }

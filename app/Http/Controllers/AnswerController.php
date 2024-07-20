@@ -32,7 +32,6 @@ class AnswerController extends Controller
             'body' => $request->body,
         ]);
     
-        // Redirect back with a success message
         return redirect()->back()->with('success', 'Answer created successfully!');
     }
     
@@ -54,7 +53,6 @@ class AnswerController extends Controller
             return redirect()->back()->with('success', 'Answer deleted successfully!');
         }
         
-        // Redirect back with an error message if the answer is not found
         return redirect()->back()->with('error', 'Answer not found.');
     }
 }

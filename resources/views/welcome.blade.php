@@ -18,7 +18,7 @@
                                 @method('DELETE')
                                 <input type="image" src="{{ asset('images/x.png') }}" class="form-image" alt="Delete">
                             </form>
-                            <form action="{{ route('topics.showEditTopicForm', ['id' => $topic->id]) }}" method="POST">
+                            <form action="{{ route('topics.showEditTopicForm', ['id' => $topic->id]) }}" method="GET">
                                 @csrf
                                 <input type="image" src="{{ asset('images/edit.png') }}" class="form-image" alt="Edit">
                             </form>

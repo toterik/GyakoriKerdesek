@@ -3,6 +3,7 @@
 @section('title', 'Question ')
 
 @section('content')
+
 <div id="question">
     <p class="right-align">{{$userName}} {{$question->created_at->format('Y-m-d')}}</p>
     <div class="title-container">

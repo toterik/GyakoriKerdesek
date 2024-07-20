@@ -5,20 +5,21 @@
 @section('content')
 <h1>Sign Up</h1>
 <div class="container">
-
     @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                    
+                const errorMessages = @json($errors->all()).join('\n');
+
+                alert('Please correct the following errors:\n\n' + errorMessages);
+            });
+        </script>
     @endif
-    <form id="signUp" class="form-stlye" action="{{ route('signUp') }}" method="POST">
+
+    <form id="signUp" class="form-container" action="{{ route('signUp') }}" method="POST">
         @csrf
         <label for="username">Username:</label>
-        <input type="text" id ="asd" name="username" required>
+        <input type="text" id="asd" name="username" required>
         <label for="email">Email:</label>
         <input type="email" name="email" required>
         <label for="password">Password:</label>

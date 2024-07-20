@@ -34,7 +34,6 @@ class UserMiddleware
             return $next($request);
         }
 
-        // Redirect to the login page with an alert message if the user is not authenticated
         return redirect()->route('login.form')->with('alert', 'You need to log in to access this page.');
     }
 }
