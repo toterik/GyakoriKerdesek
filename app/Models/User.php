@@ -47,9 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPasswordI
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected function casts() {
+        return ['email_verified_at' => 'datetime',];
+    }
 
     /**
      * Get the answers for the user.
