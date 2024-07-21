@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller;
+use Illuminate\Auth\Events\Registered;
 
 /**
  * Controller for managing user registration.
@@ -52,11 +53,13 @@ class RegistrationController extends Controller
             ]);
 
         // Create a new user with the validated data
-        User::create([
+        $user = User::create([
             'username' => $validated['username'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
+
+        event(new Registered($user));
 
         return redirect()->route('login.form')->with('success', 'Registration successful!');
     }

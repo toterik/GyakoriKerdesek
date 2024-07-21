@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use App\Http\Middleware\UserMiddleware;
 use App\Http\Middleware\AdminMiddleware;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [TopicController::class, 'index'])->name('index');
 Route::get('/questions/{topicName}', [QuestionController::class, 'showQuestionsByTopic'])->name('questions.index');
 Route::get('/createQuestion', [QuestionController::class, 'showQuestionCreationForm'])->name('questions.create');
-Route::post('/questions', [QuestionController::class, 'createNewQuestion'])->name('questions.store');
 Route::get('/questions/{topicName}/{questionId}', [QuestionController::class, 'show'])->name('questions.show');
 
 // Admin-specific routes (authenticated and admin users)
@@ -29,7 +29,7 @@ Route::middleware([UserMiddleware::class, AdminMiddleware::class])->group(functi
     Route::post('/createTopic', [TopicController::class, 'createTopic'])->name('topics.createTopic');
     Route::delete('/deleteTopic/{id}', [TopicController::class, 'deleteTopic'])->name('topics.delete');
     Route::get('/showCreateForm', [TopicController::class, 'showCreateForm'])->name('topics.showCreateForm');
-    
+
     Route::get('/listUsers', [UserController::class, 'listUsers'])->name('users.list');
     Route::delete('/deleteUser/{userId}', [UserController::class, 'deleteUser'])->name('users.delete');
 });
@@ -93,18 +93,36 @@ Route::middleware(UserMiddleware::class)->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     // Routes for questions
-    Route::delete('/deleteQuestion/{questionId}', [QuestionController::class,'deleteQuestion'])->name('questions.delete');
-    Route::delete('/deleteQuestionFromProfile/{questionId}', [QuestionController::class,'deleteFromProfile'])->name('questions.deleteFromProfile');
+    Route::delete('/deleteQuestion/{questionId}', [QuestionController::class, 'deleteQuestion'])->name('questions.delete');
+    Route::delete('/deleteQuestionFromProfile/{questionId}', [QuestionController::class, 'deleteFromProfile'])->name('questions.deleteFromProfile');
 
     // Routes for answers
-    Route::post('/createAnswer', [AnswerController::class,'createAnswer'])->name('answers.create');
-    Route::delete('/deleteAnswer/{answerId}', [AnswerController::class,'deleteAnswer'])->name('answers.delete');
+    Route::post('/createAnswer', [AnswerController::class, 'createAnswer'])->name('answers.create');
+    Route::delete('/deleteAnswer/{answerId}', [AnswerController::class, 'deleteAnswer'])->name('answers.delete');
 
     // Routes for user profiles and management
     Route::get('/profile/{userId}', [UserController::class, 'index'])->name('users.profile');
     Route::get('/EditUserForm/{userId}', [UserController::class, 'showEditUserForm'])->name('users.showEditUserForm');
     Route::put('/EditUser/{userId}', [UserController::class, 'editUser'])->name('users.editUser');
 
+    Route::post('/questions', [QuestionController::class, 'createNewQuestion'])->middleware('verified')->name('questions.store');
+
     // Route for liking/voting
-    Route::post('vote/{answerId}', [LikeController::class,'vote'])->name('likes.vote');
+    Route::post('vote/{answerId}', [LikeController::class, 'vote'])->middleware('verified')->name('likes.vote');
 });
+
+Route::get('/email/verify', function () {
+    return view('auth.verify'); 
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect()->route('index');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+ 
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
