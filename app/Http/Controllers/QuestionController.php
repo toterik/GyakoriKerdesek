@@ -34,12 +34,26 @@ class QuestionController extends Controller
             return redirect()->back()->with('error', 'Topic not found.');
         }
 
-        // Get questions related to the topic
-        $questions = Question::where('topic_id', $topic->id)->paginate(20);
+        // Get the search term if it exists
+        $searchTerm = $request->input('search');
+
+        // Get questions related to the topic, optionally filtering by the search term
+        $questionsQuery = Question::where('topic_id', $topic->id);
+
+        if ($searchTerm) {
+            // Validate search term if it exists
+            $request->validate([
+                'search' => 'nullable|string|max:255', 
+            ]);
+            $questionsQuery->where('title', 'LIKE', '%' . $searchTerm . '%');
+        }
+
+        $questions = $questionsQuery->paginate(20);
         $topicName = $request->topicName;
 
-        return view('questions.index', compact('questions', 'topicName'));
+        return view('questions.index', compact('questions', 'topicName', 'searchTerm'));
     }
+
 
     /**
      * Show the form to create a new question.

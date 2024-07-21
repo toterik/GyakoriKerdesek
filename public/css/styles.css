@@ -396,3 +396,48 @@ tbody td {
 .form-container input[type="password"] {
     margin-bottom: 10px; /* Adjusted margin for consistency */
 }
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.search {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #f9f9f9;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    width: auto;
+}
+
+.search input[type="text"] {
+    margin-right: 10px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    width: 150px;
+}
+
+.search input[type="submit"] {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.search input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+#profile-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
