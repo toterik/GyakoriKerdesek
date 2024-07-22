@@ -18,7 +18,8 @@
                     {{ __('If you did not receive the email') }},
                     <form method="POST" action="{{ route('verification.send') }}">
                         @csrf
-                        <input type="submit" class ="email-verification" value="Submit">{{ __('click here to request another')  }}</input>.
+                        <input type="submit" class="email-verification"
+                            value="Submit">{{ __('click here to request another')  }}</input>.
                     </form>
                 </div>
             </div>

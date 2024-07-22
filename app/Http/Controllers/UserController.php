@@ -27,12 +27,12 @@ class UserController extends Controller
         $user = User::findOrFail($request->userId);
 
         // Check if the authenticated user has access to view this profile
-        if (Auth::user() == null || (Auth::id() != $user->id && !Auth::user()->is_admin)) {
+        if ((Auth::id() != $user->id && !Auth::user()->is_admin)) {
             return redirect(route('index'))->withErrors('You do not have access to this profile.');
         }
 
         // Retrieve the user's questions along with their topics
-        $questions = $user->questions()->with('topic')->get();
+        $questions = $user->questions()->with('topic')->withCount('answers')->paginate(10);
 
         return view('users.profile', compact('user', 'questions'));
     }

@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Controller for managing topics and related operations.
@@ -39,14 +40,17 @@ class TopicController extends Controller
         $oneWeekAgo = $now->subWeek();
     
         // Retrieve popular questions with answers created in the last week
-        $popularQuestions = Question::with('topic')
-            ->select('questions.*')
+        $popularQuestions = DB::table('questions')
+            ->select('questions.*', 'topics.name as topic_name', DB::raw('COUNT(answers.id) as answers_count'))
             ->join('answers', 'questions.id', '=', 'answers.question_id')
-            ->where('answers.created_at', '>=', $oneWeekAgo)
-            ->groupBy('questions.id')
+            ->join('topics', 'questions.topic_id', '=', 'topics.id')
+            ->where('questions.created_at', '>=', $oneWeekAgo)
+            ->groupBy('questions.id', 'topics.name')
+            ->havingRaw('COUNT(answers.id) > 0')
             ->orderByRaw('COUNT(answers.id) DESC')
-            ->take(10)
+            ->limit(10)
             ->get();
+
         
         // Retrieve random unanswered questions
         $randomUnansweredQuestions = Question::with('topic')
@@ -89,12 +93,9 @@ class TopicController extends Controller
         // Validate the incoming request data
         $request->validate(
             [
-                'topicName' => 'required|string|max:255|unique:topics,name',
+                'topicName' => 'required|string|max:255',
                 'description' => 'nullable|string',
                 'is_visible' => 'required|boolean'
-            ],
-            [
-                'topicName.unique' => 'This topic name is already taken',
             ]
         );        
 

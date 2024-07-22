@@ -8,7 +8,7 @@
     @if ($errors->any())
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                    
+
                 const errorMessages = @json($errors->all()).join('\n');
 
                 alert('Please correct the following errors:\n\n' + errorMessages);
