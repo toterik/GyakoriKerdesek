@@ -38,21 +38,25 @@ class QuestionController extends Controller
         $searchTerm = $request->input('search');
 
         // Get questions related to the topic, optionally filtering by the search term
-        $questionsQuery = Question::where('topic_id', $topic->id);
+        $questionsQuery = Question::where('topic_id', $topic->id)
+            ->withCount('answers'); // Add answer count to the query
 
         if ($searchTerm) {
             // Validate search term if it exists
             $request->validate([
-                'search' => 'nullable|string|max:255', 
+                'search' => 'nullable|string|max:255',
             ]);
             $questionsQuery->where('title', 'LIKE', '%' . $searchTerm . '%');
         }
 
+        // Paginate the results
         $questions = $questionsQuery->paginate(20);
+
         $topicName = $request->topicName;
 
         return view('questions.index', compact('questions', 'topicName', 'searchTerm'));
     }
+
 
 
     /**

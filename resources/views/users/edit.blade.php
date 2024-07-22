@@ -17,7 +17,7 @@
 
 <h1>Edit Profile</h1>
 
-<form action="{{ route('users.editUser', $user->id) }}" class = "form-stlye" method="POST">
+<form action="{{ route('users.editUser', $user->id) }}" class="form-stlye" method="POST">
     @csrf
     @method('PUT')
     <div>
